@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://uao8khkdnt2h"]
+
+[ext_resource type="PackedScene" uid="uid://imnnb4igiqly" path="res://chess_board/chess_board.tscn" id="1_ig7tw"]
+
+[node name="Main" type="Node2D"]
+
+[node name="ChessBoard" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(318, 72)

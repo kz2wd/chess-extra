@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://imnnb4igiqly"]
+
+[ext_resource type="Script" uid="uid://dqvbg70brd35c" path="res://chess_board/chess_board.gd" id="1_7klle"]
+[ext_resource type="Shader" uid="uid://u0wntwrp7dkb" path="res://chess_board/circle.gdshader" id="2_vf0a7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ld73f"]
+shader = ExtResource("2_vf0a7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_7sqlo"]
+size = Vector2(64, 64)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf0a7"]
+shader = ExtResource("2_vf0a7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vf0a7"]
+size = Vector2(64, 64)
+center_offset = Vector3(32, 32, 0)
+
+[sub_resource type="MultiMesh" id="MultiMesh_ld73f"]
+instance_count = 1
+mesh = SubResource("QuadMesh_vf0a7")
+buffer = PackedFloat32Array(1.4013e-44, 1.26117e-44, 8.40779e-45, 1.12104e-44, 9.80909e-45, 8.40779e-45, 1.26117e-44, 1.12104e-44)
+
+[node name="ChessBoard" type="Node2D"]
+script = ExtResource("1_7klle")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Visor" type="Node2D" parent="."]
+visible = false
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Visor"]
+material = SubResource("ShaderMaterial_ld73f")
+position = Vector2(32, 32)
+mesh = SubResource("QuadMesh_7sqlo")
+
+[node name="MovePreview" type="MultiMeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_vf0a7")
+multimesh = SubResource("MultiMesh_ld73f")
