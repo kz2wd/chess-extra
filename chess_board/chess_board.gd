@@ -12,9 +12,6 @@ var pieces: Dictionary[Vector2i, ChessPiece]
 @export var SQUARE_ONE = preload("res://chess_board/square_one.tscn")
 @export var SQUARE_TWO = preload("res://chess_board/square_two.tscn")
 
-@export_group("Pieces")
-const PAWN = preload("res://chess_piece/pawn/pawn.tscn")
-
 func board_index_1d(board_pos: Vector2i) -> int:
 	return board_pos.x + board_pos.y * board_size.x
 	
@@ -43,14 +40,24 @@ func build_board() -> void:
 			var square = current_square.instantiate()
 			add_child(square)
 			square.position = board_pos * piece_size
-	
+
+@export_group("Pieces")
+const PAWN = preload("res://chess_piece/pawn/pawn.tscn")
+const ROOK = preload("res://chess_piece/rook/Rook.tscn")
+
+func add_piece(type: PackedScene, player_color: Globals.PlayerColor, board_pos: Vector2i) -> void:
+	var piece = type.instantiate()
+	piece.player_color = player_color
+	piece.new(piece_size)
+	add_child(piece)
+	force_put_piece(board_pos, piece)
+
 func place_pieces() -> void:
 	for i in range(board_size.x):
-		var pawn = PAWN.instantiate()
-		pawn.player_color = Globals.PlayerColor.BLACK
-		add_child(pawn)
-		force_put_piece(Vector2i(i, 1), pawn)
-			
+		add_piece(PAWN, Globals.PlayerColor.BLACK, Vector2i(i, 1))
+	
+	add_piece(ROOK, Globals.PlayerColor.BLACK, Vector2i(0, 0))
+	add_piece(ROOK, Globals.PlayerColor.BLACK, Vector2i(7, 0))
 
 func _init() -> void:
 	build_board()
@@ -58,9 +65,9 @@ func _init() -> void:
 	
 			
 func screen_pos_to_board_pos(screen_pos: Vector2) -> Vector2i:
-	var local_pixel_pos := Vector2i(screen_pos - position)
-	var board_pos := local_pixel_pos / piece_size
-	return board_pos
+	var local_screen_pos := screen_pos - position
+	var board_pos := Vector2i((local_screen_pos / Vector2(piece_size)).floor())
+	return board_pos	
 	
 	 
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
@@ -102,7 +109,7 @@ func unselect() -> void:
 	selected_piece = null
 
 func select_on_world(board_pos: Vector2i):
-	if not is_in_board(board_pos):
+	if not is_position_in_board(board_pos):
 		unselect_all()
 		return
 
@@ -136,5 +143,13 @@ func _input(event: InputEvent) -> void:
 		select_on_world(board_pos)
 			
 
-func is_in_board(board_pos: Vector2i) -> bool:
+func is_position_in_board(board_pos: Vector2i) -> bool:
 	return board_pos.x >= 0 and board_pos.y >= 0 and board_pos.x < board_size.x and board_pos.y < board_size.y
+
+func is_position_available(board_pos: Vector2i, playing_piece_color: Globals.PlayerColor) -> bool:
+	if not board_pos in pieces:
+		return true
+	return pieces[board_pos].player_color != playing_piece_color
+
+func is_position_valid(board_pos: Vector2i, playing_piece_color: Globals.PlayerColor) -> bool:
+	return is_position_in_board(board_pos) and is_position_available(board_pos, playing_piece_color)

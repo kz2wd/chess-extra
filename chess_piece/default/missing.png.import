@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bywppnplcaw51"
-path="res://.godot/imported/pawn.png-872527072a075788316795789134568d.ctex"
+uid="uid://m0rw2bx54gpj"
+path="res://.godot/imported/missing.png-361d1dbd0c5d99f6533336424b6817bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://chess_piece/pawn/pawn.png"
-dest_files=["res://.godot/imported/pawn.png-872527072a075788316795789134568d.ctex"]
+source_file="res://chess_piece/default/missing.png"
+dest_files=["res://.godot/imported/missing.png-361d1dbd0c5d99f6533336424b6817bd.ctex"]
 
 [params]
 

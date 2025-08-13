@@ -2,6 +2,7 @@ extends ChessPiece
 class_name ChessPawn
 
 func get_move_set(board: ChessBoard) -> Dictionary[Vector2i, int]:
+	print("Asking move set at ", board_position)
 	var moves : Dictionary[Vector2i, int] = {}
 	
 	var starting_line : int = 6 if player_color == Globals.PlayerColor.WHITE else 1
@@ -21,7 +22,7 @@ func get_move_set(board: ChessBoard) -> Dictionary[Vector2i, int]:
 	moves[next_line] = 0
 	
 	for move in moves:
-		if not board.is_in_board(move):
+		if not board.is_position_valid(move, player_color):
 			moves.erase(move)
 
 

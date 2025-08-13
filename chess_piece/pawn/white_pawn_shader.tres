@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dc2r7oogbn544"]
+
+[ext_resource type="Shader" uid="uid://14jwvxfo5481" path="res://chess_piece/default/default_shader.gdshader" id="1_y7d6i"]
+[ext_resource type="Texture2D" uid="uid://bywppnplcaw51" path="res://chess_piece/pawn/pawn.png" id="2_isyhr"]
+
+[resource]
+shader = ExtResource("1_y7d6i")
+shader_parameter/piece_texture = ExtResource("2_isyhr")
+shader_parameter/color = Color(1, 1, 1, 1)

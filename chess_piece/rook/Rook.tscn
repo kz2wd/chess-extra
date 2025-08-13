@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://igt850rcy8gw"]
+
+[ext_resource type="Script" uid="uid://crfrxtev8je63" path="res://chess_piece/rook/rook.gd" id="1_tksx5"]
+[ext_resource type="Material" uid="uid://dfq0d84djo4cx" path="res://chess_piece/black_rook_shader.tres" id="2_pnv66"]
+
+[node name="Rook" type="Node2D"]
+script = ExtResource("1_tksx5")
+BLACK_VISUALS = ExtResource("2_pnv66")
