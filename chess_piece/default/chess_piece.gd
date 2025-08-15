@@ -1,20 +1,22 @@
-extends Node2D
+extends Node
 class_name ChessPiece
 
 var board_position: Vector2i
 var player_color = Globals.PlayerColor.WHITE
-
-@export var WHITE_VISUALS : ShaderMaterial
-@export var BLACK_VISUALS : ShaderMaterial
+var piece_type: Globals.PieceType
 
 
-func new(piece_size: Vector2i) -> void:
-	var piece_sprite = Sprite2D.new()
-	piece_sprite.texture = CanvasTexture.new()
-	piece_sprite.scale = Vector2(piece_size)
-	piece_sprite.material = WHITE_VISUALS if player_color == Globals.PlayerColor.WHITE else BLACK_VISUALS
-	piece_sprite.position = piece_size / 2
-	add_child(piece_sprite)
+func full_initialize(board_pos: Vector2i, player_color: Globals.PlayerColor, piece_type: Globals.PieceType):
+	self.player_color = player_color
+	self.board_position = board_pos
+	self.piece_type = piece_type
 
-func get_move_set(_board: ChessBoard) -> Dictionary[Vector2i, int]:
+func is_equivalent(untrusted_piece: ChessPiece) -> bool:
+	return (
+		board_position == untrusted_piece.board_position
+		and player_color == untrusted_piece.player_color
+		and piece_type == untrusted_piece.piece_type
+	)
+
+func get_move_set(_board: BoardModel) -> Dictionary[Vector2i, int]:
 	return {}

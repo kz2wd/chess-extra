@@ -1,0 +1,101 @@
+extends Node
+class_name BoardControl
+
+@export var board_model: BoardModel
+
+var playing_player: Globals.PlayerColor = Globals.PlayerColor.WHITE
+
+@export var player_one: PlayerControl
+@export var player_two: PlayerControl
+
+func get_player_control(player_color: Globals.PlayerColor) -> PlayerControl:
+	if player_color == Globals.PlayerColor.WHITE:
+		return player_one
+	return player_two
+	
+func get_current_player_control() -> PlayerControl:
+	return get_player_control(playing_player)
+
+func change_playing_player() -> void:
+	if playing_player == Globals.PlayerColor.WHITE:
+		playing_player = Globals.PlayerColor.BLACK
+	else:
+		playing_player = Globals.PlayerColor.WHITE
+
+func ensure_piece_is_valid(untrusted_moving_piece: ChessPiece) -> bool:
+	if untrusted_moving_piece.board_position in board_model.pieces:
+		var existing_piece = board_model.pieces[untrusted_moving_piece.board_position]
+		return existing_piece.is_equivalent(untrusted_moving_piece)
+	return false
+
+func ensure_move_is_valid(
+	untrusted_moving_piece: ChessPiece, 
+	untrusted_board_pos: Vector2i) -> bool:
+		# Ensure player is playing its piece
+		if untrusted_moving_piece.player_color != playing_player:
+			return false
+		# Ensure the piece is valid
+		if not ensure_piece_is_valid(untrusted_moving_piece):
+			return false
+		var moving_piece = untrusted_moving_piece
+		
+		# Ensure the moving position is available
+		if not board_model.is_position_available(untrusted_board_pos, moving_piece.player_color):
+			return false
+			
+		var board_pos = untrusted_board_pos
+		return true
+
+# Untrusted prefix: expect any kind of inputs and that they might be built to deceive you!
+# Return True if move was accepted and applied, false otherwise
+@rpc
+func untrusted_request_play(
+	untrusted_player: PlayerControl, 
+	untrusted_moving_piece: ChessPiece, 
+	untrusted_board_pos: Vector2i
+	) -> bool:
+	# Player identity might be an issue
+	
+	if untrusted_player.player_color != playing_player:
+		return false
+	
+	if not ensure_move_is_valid(untrusted_moving_piece, untrusted_board_pos):
+		return false
+	var moving_piece = untrusted_moving_piece
+	var board_pos = untrusted_board_pos
+	
+	# modify board state
+	force_move_piece(board_pos, moving_piece)
+	
+	# update playing player
+	change_playing_player()
+	
+	# send move notification to other player
+	get_current_player_control().update_player_state(moving_piece, board_pos)
+	
+	return true
+
+
+func force_put_piece(board_pos: Vector2i, piece: ChessPiece):
+	board_model.pieces[board_pos] = piece
+	piece.board_position = board_pos
+	
+func force_move_piece(board_pos: Vector2i, piece: ChessPiece):
+	board_model.pieces.erase(piece.board_position)
+	force_put_piece(board_pos, piece)
+
+func _ready() -> void:
+	place_pieces()
+
+func add_piece(type: Object, player_color: Globals.PlayerColor, board_pos: Vector2i) -> void:
+	var piece = type.new()
+	piece.initialize(board_pos, player_color)
+	add_child(piece)
+	force_put_piece(board_pos, piece)
+
+func place_pieces() -> void:
+	for i in range(board_model.board_size.x):
+		add_piece(ChessPawn, Globals.PlayerColor.BLACK, Vector2i(i, 1))
+	
+	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(0, 0))
+	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(7, 0))

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdqmtlacxobpl"]
+
+[ext_resource type="Texture2D" uid="uid://m0rw2bx54gpj" path="res://chess_piece/default/missing.png" id="1_thasy"]
+
+[node name="MissingPiece" type="Node2D"]
+
+[node name="Missing" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+texture = ExtResource("1_thasy")

@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://djsufibrdpi42"]
+[gd_scene load_steps=4 format=3 uid="uid://dib41dheqsmrm"]
 
-[ext_resource type="Script" uid="uid://cxqmpph5ttm3o" path="res://chess_piece/pawn/pawn.gd" id="1_rs34e"]
+[ext_resource type="Script" uid="uid://3re7pcx5ws7e" path="res://chess_piece/default/piece_visuals.gd" id="1_lotat"]
 [ext_resource type="Material" uid="uid://dc2r7oogbn544" path="res://chess_piece/pawn/white_pawn_shader.tres" id="2_lotat"]
 [ext_resource type="Material" uid="uid://cvwjn00pgjwhy" path="res://chess_piece/pawn/black_pawn_shader.tres" id="2_rs34e"]
 
 [node name="Pawn" type="Node2D"]
-script = ExtResource("1_rs34e")
+script = ExtResource("1_lotat")
 WHITE_VISUALS = ExtResource("2_lotat")
 BLACK_VISUALS = ExtResource("2_rs34e")

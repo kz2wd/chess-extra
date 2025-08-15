@@ -1,8 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://uao8khkdnt2h"]
+[gd_scene load_steps=6 format=3 uid="uid://uao8khkdnt2h"]
 
 [ext_resource type="PackedScene" uid="uid://imnnb4igiqly" path="res://chess_board/chess_board.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://0c6agwu4ftcl" path="res://board_control/board_control.gd" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://cwtsfc2e2hxqd" path="res://board_control/board_model.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://cjmwooipxr24y" path="res://player/player_input_handler.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://bgrr8ael18p5w" path="res://player/player_control.gd" id="6_5vw27"]
 
 [node name="Main" type="Node2D"]
 
-[node name="ChessBoard" parent="." instance=ExtResource("1_ig7tw")]
+[node name="BoardControl" type="Node" parent="." node_paths=PackedStringArray("board_model", "player_one", "player_two")]
+script = ExtResource("4_7mycd")
+board_model = NodePath("BoardModel")
+player_one = NodePath("../PlayerOne")
+player_two = NodePath("../PlayerTwo")
+metadata/_custom_type_script = "uid://0c6agwu4ftcl"
+
+[node name="BoardModel" type="Node" parent="BoardControl"]
+script = ExtResource("5_272bh")
+metadata/_custom_type_script = "uid://cwtsfc2e2hxqd"
+
+[node name="PlayerOne" type="Node" parent="." node_paths=PackedStringArray("board_model", "board_control")]
+script = ExtResource("6_5vw27")
+board_model = NodePath("BoardModel")
+board_control = NodePath("../BoardControl")
+metadata/_custom_type_script = "uid://bgrr8ael18p5w"
+
+[node name="BoardModel" type="Node" parent="PlayerOne"]
+script = ExtResource("5_272bh")
+metadata/_custom_type_script = "uid://cwtsfc2e2hxqd"
+
+[node name="PlayerTwo" type="Node" parent="." node_paths=PackedStringArray("board_model", "board_control")]
+script = ExtResource("6_5vw27")
+board_model = NodePath("BoardModel")
+board_control = NodePath("../BoardControl")
+metadata/_custom_type_script = "uid://bgrr8ael18p5w"
+
+[node name="BoardModel" type="Node" parent="PlayerTwo"]
+script = ExtResource("5_272bh")
+metadata/_custom_type_script = "uid://cwtsfc2e2hxqd"
+
+[node name="ChessBoard" parent="." node_paths=PackedStringArray("board_model", "board_control") instance=ExtResource("1_ig7tw")]
 position = Vector2(318, 72)
+board_model = NodePath("../BoardControl/BoardModel")
+board_control = NodePath("../BoardControl")
+
+[node name="PlayerInputHandler" type="Node" parent="." node_paths=PackedStringArray("board_control", "board_view")]
+script = ExtResource("5_lquwl")
+board_control = NodePath("../BoardControl")
+board_view = NodePath("../ChessBoard")
+metadata/_custom_type_script = "uid://cjmwooipxr24y"
