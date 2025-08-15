@@ -10,6 +10,9 @@ void vertex() {
 void fragment() {
 	float mask = texture(piece_texture, UV).a;
 	COLOR = vec4(color.rgb, mask);
+
+	vec3 base = color.rgb * (sin(TIME + (UV.x + UV.y) * 10.0) + 1.) / 2.;
+	COLOR = vec4(base, mask);
 }
 
 //void light() {

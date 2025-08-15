@@ -1,7 +1,6 @@
 extends Node
 class_name BoardModel
 
-
 @export var board_size: Vector2i = Vector2i(8, 8)
 
 var pieces: Dictionary[Vector2i, ChessPiece]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://t6hn0x4lv1gr"]
+
+[ext_resource type="Script" uid="uid://c5yma31jujqc7" path="res://multi_test.gd" id="1_u4a1r"]
+[ext_resource type="Script" uid="uid://c66pasklxxkw6" path="res://client.gd" id="2_r3mhe"]
+[ext_resource type="Script" uid="uid://d0gp2n4un73ap" path="res://server.gd" id="3_4f6eg"]
+
+[node name="MultiTest" type="Node2D"]
+script = ExtResource("1_u4a1r")
+
+[node name="Client" type="Node2D" parent="."]
+script = ExtResource("2_r3mhe")
+
+[node name="Server" type="Node2D" parent="."]
+script = ExtResource("3_4f6eg")
