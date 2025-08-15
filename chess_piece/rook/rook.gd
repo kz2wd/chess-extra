@@ -7,12 +7,20 @@ func initialize(board_pos: Vector2i, player_color: Globals.PlayerColor):
 
 func get_move_set(board: BoardModel) -> Dictionary[Vector2i, int]:
 	var moves : Dictionary[Vector2i, int] = {}
-	
-	for i in range(8):
-		moves[Vector2i(board_position.x, i)] = 0
-		moves[Vector2i(i, board_position.y)] = 0
-	
-	for move in moves.keys():
-		if not board.is_position_valid(move, player_color):
-			moves.erase(move)
+	var directions = [
+		Vector2i(1, 0),   # Right
+		Vector2i(-1, 0),  # Left
+		Vector2i(0, 1),   # Down
+		Vector2i(0, -1)   # Up
+	]
+
+	for dir in directions:
+		var pos = board_position + dir
+		while board.is_position_in_board(pos) and board.is_empty(pos):
+			moves[pos] = 0
+			pos += dir
+		# If the first non-empty square is enemy, add it
+		if board.is_position_in_board(pos) and board.contains_enemy(pos, player_color):
+			moves[pos] = 0
+
 	return moves

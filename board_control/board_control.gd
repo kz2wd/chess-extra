@@ -40,7 +40,7 @@ func ensure_move_is_valid(
 		var moving_piece = untrusted_moving_piece
 		
 		# Ensure the moving position is available
-		if not board_model.is_position_available(untrusted_board_pos, moving_piece.player_color):
+		if not untrusted_board_pos in moving_piece.get_move_set(board_model):
 			return false
 			
 		var board_pos = untrusted_board_pos

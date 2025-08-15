@@ -8,19 +8,19 @@ func initialize(board_pos: Vector2i, player_color: Globals.PlayerColor):
 
 func get_move_set(board: BoardModel) -> Dictionary[Vector2i, int]:
 	var moves : Dictionary[Vector2i, int] = {}
-	
-	var starting_line : int = 6 if player_color == Globals.PlayerColor.WHITE else 1
-	var forward : int = -1 if player_color == Globals.PlayerColor.WHITE else 1
-	
-	if board_position.y == starting_line:
-		moves[Vector2i(board_position.x, board_position.y + (2 * forward))] = 0
+	var directions = [
+		Vector2i(1, 1),    # Down-right
+		Vector2i(-1, 1),   # Down-left
+		Vector2i(1, -1),   # Up-right
+		Vector2i(-1, -1)   # Up-left
+	]
 
-	var next_line = Vector2i(board_position.x, board_position.y + (1 * forward))
-	moves[next_line] = 0
-
-	
-	for move in moves:
-		if not board.is_position_valid(move, player_color):
-			moves.erase(move)
+	for dir in directions:
+		var pos = board_position + dir
+		while board.is_position_in_board(pos) and board.is_empty(pos):
+			moves[pos] = 0
+			pos += dir
+		if board.is_position_in_board(pos) and board.contains_enemy(pos, player_color):
+			moves[pos] = 0
 
 	return moves

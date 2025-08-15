@@ -25,3 +25,11 @@ func is_position_available(board_pos: Vector2i, playing_piece_color: Globals.Pla
 
 func is_position_valid(board_pos: Vector2i, playing_piece_color: Globals.PlayerColor) -> bool:
 	return is_position_in_board(board_pos) and is_position_available(board_pos, playing_piece_color)
+
+func is_empty(board_pos: Vector2i) -> bool:
+	return not board_pos in pieces
+
+func contains_enemy(board_pos: Vector2i, playing_piece_color: Globals.PlayerColor):
+	if not board_pos in pieces:
+		return false
+	return pieces[board_pos].player_color != playing_piece_color
