@@ -6,6 +6,7 @@ class_name BoardModel
 
 var pieces: Dictionary[Vector2i, ChessPiece]
 
+signal board_changed
 
 func board_index_1d(board_pos: Vector2i) -> int:
 	return board_pos.x + board_pos.y * board_size.x

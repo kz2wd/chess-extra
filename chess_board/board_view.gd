@@ -14,7 +14,7 @@ class_name BoardView
 @export_group("Pieces")
 @export var piece_visuals: Dictionary[Globals.PieceType, PackedScene] = {
 	Globals.PieceType.PAWN: preload("res://chess_piece/pawn/pawn.tscn"),
-	Globals.PieceType.ROOK: preload("res://chess_piece/rook/Rook.tscn")
+	Globals.PieceType.ROOK: preload("res://chess_piece/rook/Rook.tscn"),
 	
 }
 @export var missing_visual = preload("res://chess_piece/default/missing_piece.tscn")
@@ -28,7 +28,6 @@ signal on_move_request(piece: ChessPiece, board_pos: Vector2i)
 func update_visuals() -> void:
 	for child in piece_container.get_children():
 		child.queue_free()
-	print(piece_visuals.keys())
 	for board_pos in board_model.pieces.keys():
 		var current_piece: ChessPiece = board_model.pieces[board_pos]
 		var world_pos = to_world_pos(board_pos)
@@ -37,9 +36,9 @@ func update_visuals() -> void:
 			piece_container.add_child(missing)
 			missing.position = world_pos
 			continue
-		var visual_instance = piece_visuals[current_piece.piece_type].instantiate()
+		var visual_instance: ChessPieceVisual = piece_visuals[current_piece.piece_type].instantiate()
 		piece_container.add_child(visual_instance)
-		visual_instance.new(world_pos, current_piece.player_color)
+		visual_instance.new(world_pos, piece_size, current_piece.player_color)
 		
 
 func to_world_pos(board_pos: Vector2i) -> Vector2:
@@ -59,6 +58,7 @@ func build_board() -> void:
 func _ready() -> void:
 	build_board()
 	update_visuals()
+	board_model.board_changed.connect(update_visuals)
 	
 
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
@@ -110,7 +110,7 @@ func select_on_world(board_pos: Vector2i, as_player: Globals.PlayerColor):
 		
 	if selected_piece != null:
 		# try move!
-		var moves = selected_piece.get_move_set(self)
+		var moves = selected_piece.get_move_set(board_model)
 		if board_pos in moves:
 			# move is valid!
 			
@@ -126,7 +126,7 @@ func select_on_world(board_pos: Vector2i, as_player: Globals.PlayerColor):
 			unselect()
 			return
 		
-		var moves = selected_piece.get_move_set(self)
+		var moves = selected_piece.get_move_set(board_model)
 		preview_moves(moves)
 	else:
 		unselect()

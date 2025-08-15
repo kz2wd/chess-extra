@@ -33,6 +33,7 @@ metadata/_custom_type_script = "uid://cwtsfc2e2hxqd"
 script = ExtResource("6_5vw27")
 board_model = NodePath("BoardModel")
 board_control = NodePath("../BoardControl")
+player_color = 1
 metadata/_custom_type_script = "uid://bgrr8ael18p5w"
 
 [node name="BoardModel" type="Node" parent="PlayerTwo"]

@@ -3,6 +3,7 @@ class_name PlayerControl
 
 @export var board_model: BoardModel
 @export var board_control: BoardControl
+@export var player_color: Globals.PlayerColor
 
 @rpc
 func update_player_state(piece_that_moved: ChessPiece, position_reached: Vector2i) -> void:

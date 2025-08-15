@@ -83,6 +83,7 @@ func force_put_piece(board_pos: Vector2i, piece: ChessPiece):
 func force_move_piece(board_pos: Vector2i, piece: ChessPiece):
 	board_model.pieces.erase(piece.board_position)
 	force_put_piece(board_pos, piece)
+	board_model.board_changed.emit()
 
 func _ready() -> void:
 	place_pieces()
@@ -96,6 +97,7 @@ func add_piece(type: Object, player_color: Globals.PlayerColor, board_pos: Vecto
 func place_pieces() -> void:
 	for i in range(board_model.board_size.x):
 		add_piece(ChessPawn, Globals.PlayerColor.BLACK, Vector2i(i, 1))
+		add_piece(ChessPawn, Globals.PlayerColor.WHITE, Vector2i(i, 6))
 	
 	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(0, 0))
 	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(7, 0))
