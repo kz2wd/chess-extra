@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://xuynr0lq1p63"]
+
+[ext_resource type="Shader" uid="uid://14jwvxfo5481" path="res://chess_piece/default/default_shader.gdshader" id="1_57jv2"]
+[ext_resource type="Texture2D" uid="uid://dkqcqek3wragn" path="res://chess_piece/queen/queen.png" id="2_57jv2"]
+
+[resource]
+shader = ExtResource("1_57jv2")
+shader_parameter/piece_texture = ExtResource("2_57jv2")
+shader_parameter/color = Color(0, 0, 0, 1)

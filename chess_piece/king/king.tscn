@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqooiuxr2nunu"]
+
+[ext_resource type="Script" uid="uid://3re7pcx5ws7e" path="res://chess_piece/default/piece_visuals.gd" id="1_qlbvt"]
+[ext_resource type="Material" uid="uid://ya3y83aissfg" path="res://chess_piece/king/white_king_shader.tres" id="2_ma7wl"]
+[ext_resource type="Material" uid="uid://uyy2nh43dkg8" path="res://chess_piece/king/black_king_shader.tres" id="3_k4axi"]
+
+[node name="King" type="Node2D"]
+script = ExtResource("1_qlbvt")
+WHITE_VISUALS = ExtResource("2_ma7wl")
+BLACK_VISUALS = ExtResource("3_k4axi")

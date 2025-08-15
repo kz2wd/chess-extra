@@ -1,9 +1,9 @@
 extends ChessPiece
-class_name ChessPawn
+class_name ChessKing
 
 
 func initialize(board_pos: Vector2i, player_color: Globals.PlayerColor):
-	full_initialize(board_pos, player_color, Globals.PieceType.PAWN)
+	full_initialize(board_pos, player_color, Globals.PieceType.KING)
 
 
 func get_move_set(board: BoardModel) -> Dictionary[Vector2i, int]:

@@ -76,14 +76,16 @@ func untrusted_request_play(
 	return true
 
 
-func force_put_piece(board_pos: Vector2i, piece: ChessPiece):
+func force_put_piece(board_pos: Vector2i, piece: ChessPiece, emit_signal=true):
 	board_model.pieces[board_pos] = piece
 	piece.board_position = board_pos
+	if emit_signal:
+		board_model.board_changed.emit()
 	
-func force_move_piece(board_pos: Vector2i, piece: ChessPiece):
+func force_move_piece(board_pos: Vector2i, piece: ChessPiece, emit_signal=true):
 	board_model.pieces.erase(piece.board_position)
-	force_put_piece(board_pos, piece)
-	board_model.board_changed.emit()
+	force_put_piece(board_pos, piece, emit_signal)
+	
 
 func _ready() -> void:
 	place_pieces()
@@ -92,7 +94,7 @@ func add_piece(type: Object, player_color: Globals.PlayerColor, board_pos: Vecto
 	var piece = type.new()
 	piece.initialize(board_pos, player_color)
 	add_child(piece)
-	force_put_piece(board_pos, piece)
+	force_put_piece(board_pos, piece, false)
 
 func place_pieces() -> void:
 	for i in range(board_model.board_size.x):
@@ -101,3 +103,20 @@ func place_pieces() -> void:
 	
 	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(0, 0))
 	add_piece(ChessRook, Globals.PlayerColor.BLACK, Vector2i(7, 0))
+	add_piece(ChessRook, Globals.PlayerColor.WHITE, Vector2i(0, 7))
+	add_piece(ChessRook, Globals.PlayerColor.WHITE, Vector2i(7, 7))
+	
+	add_piece(ChessKnight, Globals.PlayerColor.BLACK, Vector2i(1, 0))
+	add_piece(ChessKnight, Globals.PlayerColor.WHITE, Vector2i(6, 7))
+	add_piece(ChessKnight, Globals.PlayerColor.BLACK, Vector2i(6, 0))
+	add_piece(ChessKnight, Globals.PlayerColor.WHITE, Vector2i(1, 7))
+	
+	add_piece(ChessBishop, Globals.PlayerColor.BLACK, Vector2i(2, 0))
+	add_piece(ChessBishop, Globals.PlayerColor.WHITE, Vector2i(5, 7))
+	add_piece(ChessBishop, Globals.PlayerColor.BLACK, Vector2i(5, 0))
+	add_piece(ChessBishop, Globals.PlayerColor.WHITE, Vector2i(2, 7))
+	
+	add_piece(ChessQueen, Globals.PlayerColor.BLACK, Vector2i(3, 0))
+	add_piece(ChessQueen, Globals.PlayerColor.WHITE, Vector2i(3, 7))
+	add_piece(ChessKing, Globals.PlayerColor.BLACK, Vector2i(4, 0))
+	add_piece(ChessKing, Globals.PlayerColor.WHITE, Vector2i(4, 7))

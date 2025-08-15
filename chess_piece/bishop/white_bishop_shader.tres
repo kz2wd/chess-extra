@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://s400h8d53wrt"]
+
+[ext_resource type="Shader" uid="uid://14jwvxfo5481" path="res://chess_piece/default/default_shader.gdshader" id="1_jpaq8"]
+[ext_resource type="Texture2D" uid="uid://dn5bi8ipwmqmt" path="res://chess_piece/bishop/bishop.png" id="2_1xm35"]
+
+[resource]
+shader = ExtResource("1_jpaq8")
+shader_parameter/piece_texture = ExtResource("2_1xm35")
+shader_parameter/color = Color(1, 1, 1, 1)

@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdskvn5q75yr4"]
+
+[ext_resource type="Script" uid="uid://3re7pcx5ws7e" path="res://chess_piece/default/piece_visuals.gd" id="1_3kvvh"]
+[ext_resource type="Material" uid="uid://s400h8d53wrt" path="res://chess_piece/bishop/white_bishop_shader.tres" id="2_ovedw"]
+[ext_resource type="Material" uid="uid://isug3i2lerga" path="res://chess_piece/bishop/black_bishop_shader.tres" id="3_bbe4b"]
+
+[node name="Bishop" type="Node2D"]
+script = ExtResource("1_3kvvh")
+WHITE_VISUALS = ExtResource("2_ovedw")
+BLACK_VISUALS = ExtResource("3_bbe4b")

@@ -1,8 +1,5 @@
 shader_type canvas_item;
 
-uniform float shift = 0.5;
-uniform float circle_radius = 0.2;
-
 
 void vertex() {
 	// Called for every vertex the material is visible on.
@@ -10,10 +7,7 @@ void vertex() {
 
 
 void fragment() {
-	COLOR = vec4(0);
-	if (((UV.x - shift) * (UV.x - shift) + (UV.y - shift) * (UV.y - shift)) <= circle_radius * circle_radius) {
-		COLOR = vec4(0.3, 0.3, 0.3, 0.7);
-	}
+	COLOR = vec4(0.3, 0.3, 0.3, 0.7);
 }
 
 //void light() {

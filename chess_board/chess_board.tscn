@@ -1,16 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://imnnb4igiqly"]
+[gd_scene load_steps=9 format=3 uid="uid://imnnb4igiqly"]
 
 [ext_resource type="Script" uid="uid://dqvbg70brd35c" path="res://chess_board/board_view.gd" id="1_7klle"]
+[ext_resource type="Shader" uid="uid://c52svgfs82gt3" path="res://chess_board/shadow_square.gdshader" id="2_ld73f"]
 [ext_resource type="Shader" uid="uid://u0wntwrp7dkb" path="res://chess_board/circle.gdshader" id="2_vf0a7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ld73f"]
-shader = ExtResource("2_vf0a7")
+shader = ExtResource("2_ld73f")
 
 [sub_resource type="QuadMesh" id="QuadMesh_7sqlo"]
 size = Vector2(64, 64)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vf0a7"]
 shader = ExtResource("2_vf0a7")
+shader_parameter/shift = 0.5
+shader_parameter/circle_radius = 0.2
 
 [sub_resource type="QuadMesh" id="QuadMesh_vf0a7"]
 size = Vector2(64, 64)

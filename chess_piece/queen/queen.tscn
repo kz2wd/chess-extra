@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://brp2gtjvgwldy"]
+
+[ext_resource type="Script" uid="uid://3re7pcx5ws7e" path="res://chess_piece/default/piece_visuals.gd" id="1_yslg3"]
+[ext_resource type="Material" uid="uid://bux4crn2lax1q" path="res://chess_piece/queen/white_queen_shader.tres" id="2_qo4v0"]
+[ext_resource type="Material" uid="uid://xuynr0lq1p63" path="res://chess_piece/queen/black_queen_shader.tres" id="3_ojabq"]
+
+[node name="Queen" type="Node2D"]
+script = ExtResource("1_yslg3")
+WHITE_VISUALS = ExtResource("2_qo4v0")
+BLACK_VISUALS = ExtResource("3_ojabq")

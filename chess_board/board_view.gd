@@ -15,8 +15,12 @@ class_name BoardView
 @export var piece_visuals: Dictionary[Globals.PieceType, PackedScene] = {
 	Globals.PieceType.PAWN: preload("res://chess_piece/pawn/pawn.tscn"),
 	Globals.PieceType.ROOK: preload("res://chess_piece/rook/Rook.tscn"),
-	
+	Globals.PieceType.KNIGHT: preload("res://chess_piece/knight/knight.tscn"),
+	Globals.PieceType.BISHOP: preload("res://chess_piece/bishop/bishop.tscn"),
+	Globals.PieceType.QUEEN: preload("res://chess_piece/queen/queen.tscn"),
+	Globals.PieceType.KING: preload("res://chess_piece/king/king.tscn"),
 }
+
 @export var missing_visual = preload("res://chess_piece/default/missing_piece.tscn")
 
 signal on_move_request(piece: ChessPiece, board_pos: Vector2i)
