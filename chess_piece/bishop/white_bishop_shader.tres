@@ -1,9 +1,22 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://s400h8d53wrt"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://s400h8d53wrt"]
 
 [ext_resource type="Shader" uid="uid://14jwvxfo5481" path="res://chess_piece/default/default_shader.gdshader" id="1_jpaq8"]
 [ext_resource type="Texture2D" uid="uid://dn5bi8ipwmqmt" path="res://chess_piece/bishop/bishop.png" id="2_1xm35"]
 
+[sub_resource type="Gradient" id="Gradient_jpaq8"]
+colors = PackedColorArray(1, 1, 1, 1, 0.920064, 0.337441, 0.731571, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1xm35"]
+gradient = SubResource("Gradient_jpaq8")
+
 [resource]
 shader = ExtResource("1_jpaq8")
 shader_parameter/piece_texture = ExtResource("2_1xm35")
-shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/color_shining_gradient = SubResource("GradientTexture1D_1xm35")
+shader_parameter/outline_color = Color(0.920064, 0.337441, 0.731571, 1)
+shader_parameter/outline_width = 0.03
+shader_parameter/shining_freq = 15.0
+shader_parameter/shining_speed = 0.3
+shader_parameter/shining_intensity = 0.1
+shader_parameter/shining_inverse_contrast = 1.0
+shader_parameter/shining_direction = Vector2(1, 1)

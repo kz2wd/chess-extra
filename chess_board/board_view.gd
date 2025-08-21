@@ -3,7 +3,6 @@ class_name BoardView
 
 
 @export var board_model: BoardModel
-@export var board_control: BoardControl
 
 @export_group("Board")
 @export var piece_size: Vector2i = Vector2i(64, 64)
@@ -23,7 +22,7 @@ class_name BoardView
 
 @export var missing_visual = preload("res://chess_piece/default/missing_piece.tscn")
 
-signal on_move_request(piece: ChessPiece, board_pos: Vector2i)
+signal on_move_request(start_board_pos: Vector2i, end_board_pos: Vector2i)
 
 @onready var piece_container: Node2D = $PieceContainer
 @onready var tile_container: Node2D = $TileContainer
@@ -118,7 +117,7 @@ func select_on_world(board_pos: Vector2i, as_player: Globals.PlayerColor):
 		if board_pos in moves:
 			# move is valid!
 			
-			on_move_request.emit(selected_piece, board_pos)
+			on_move_request.emit(selected_piece.board_position, board_pos)
 			unselect_all()
 			return
 		

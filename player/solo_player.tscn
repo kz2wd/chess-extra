@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://w02avl7xy7fg"]
+
+[ext_resource type="Script" uid="uid://bgrr8ael18p5w" path="res://player/player_control.gd" id="1_xgy0v"]
+[ext_resource type="Script" uid="uid://0c6agwu4ftcl" path="res://board_control/board_control.gd" id="2_udf8o"]
+[ext_resource type="Script" uid="uid://cwtsfc2e2hxqd" path="res://board_control/board_model.gd" id="2_yg4x8"]
+[ext_resource type="PackedScene" uid="uid://imnnb4igiqly" path="res://chess_board/chess_board.tscn" id="3_udf8o"]
+[ext_resource type="Script" uid="uid://cjmwooipxr24y" path="res://player/player_input_handler.gd" id="4_ofxl5"]
+
+[node name="Player" type="Node" node_paths=PackedStringArray("board_control", "board_model")]
+script = ExtResource("1_xgy0v")
+board_control = NodePath("BoardControl")
+board_model = NodePath("BoardModel")
+metadata/_custom_type_script = "uid://bgrr8ael18p5w"
+
+[node name="BoardControl" type="Node" parent="." node_paths=PackedStringArray("board_model", "player_control")]
+script = ExtResource("2_udf8o")
+board_model = NodePath("../BoardModel")
+player_control = NodePath("..")
+metadata/_custom_type_script = "uid://0c6agwu4ftcl"
+
+[node name="BoardModel" type="Node" parent="."]
+script = ExtResource("2_yg4x8")
+metadata/_custom_type_script = "uid://cwtsfc2e2hxqd"
+
+[node name="ChessBoard" parent="." node_paths=PackedStringArray("board_model") instance=ExtResource("3_udf8o")]
+board_model = NodePath("../BoardModel")
+
+[node name="PlayerInputHandler" type="Node" parent="." node_paths=PackedStringArray("board_control", "board_view", "player_control")]
+script = ExtResource("4_ofxl5")
+board_control = NodePath("../BoardControl")
+board_view = NodePath("../ChessBoard")
+player_control = NodePath("..")
+metadata/_custom_type_script = "uid://cjmwooipxr24y"

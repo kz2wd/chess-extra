@@ -2,19 +2,10 @@ extends Node
 class_name BoardControl
 
 @export var board_model: BoardModel
+@export var player_control: PlayerControl
+
 
 var playing_player: Globals.PlayerColor = Globals.PlayerColor.WHITE
-
-@export var player_one: PlayerControl
-@export var player_two: PlayerControl
-
-func get_player_control(player_color: Globals.PlayerColor) -> PlayerControl:
-	if player_color == Globals.PlayerColor.WHITE:
-		return player_one
-	return player_two
-	
-func get_current_player_control() -> PlayerControl:
-	return get_player_control(playing_player)
 
 func change_playing_player() -> void:
 	if playing_player == Globals.PlayerColor.WHITE:
@@ -46,23 +37,42 @@ func ensure_move_is_valid(
 		var board_pos = untrusted_board_pos
 		return true
 
+var players = {}
+
+func add_player(id: int, color: Globals.PlayerColor) -> void:
+	players[id] = color
+	print("Adding player ", id, " of color ", color)
+
 # Untrusted prefix: expect any kind of inputs and that they might be built to deceive you!
 # Return True if move was accepted and applied, false otherwise
-@rpc
+@rpc("any_peer", "call_local", "reliable", 0)
 func untrusted_request_play(
-	untrusted_player: PlayerControl, 
-	untrusted_moving_piece: ChessPiece, 
-	untrusted_board_pos: Vector2i
+	untrusted_start_board_pos: Vector2i,
+	untrusted_end_board_pos: Vector2i,
 	) -> bool:
-	# Player identity might be an issue
 	
-	if untrusted_player.player_color != playing_player:
+	print("PLAYING REQUEST from ", multiplayer.get_remote_sender_id())
+	# Only server may update the board
+	if not multiplayer.is_server():
 		return false
+		
+
+	# Player identity might be an issue
+	var id = multiplayer.get_remote_sender_id()
+	if id not in players:
+		return false
+	var player_color = players[id]
+	if player_color != playing_player:
+		return false
+	if untrusted_start_board_pos not in board_model.pieces:
+		return false
+	var untrusted_moving_piece = board_model.pieces[untrusted_start_board_pos]
 	
-	if not ensure_move_is_valid(untrusted_moving_piece, untrusted_board_pos):
+	if not ensure_move_is_valid(untrusted_moving_piece, untrusted_end_board_pos):
 		return false
 	var moving_piece = untrusted_moving_piece
-	var board_pos = untrusted_board_pos
+	var board_pos = untrusted_end_board_pos
+	var premove_pos = moving_piece.board_position
 	
 	# modify board state
 	force_move_piece(board_pos, moving_piece)
@@ -70,9 +80,9 @@ func untrusted_request_play(
 	# update playing player
 	change_playing_player()
 	
-	# send move notification to other player
-	get_current_player_control().update_player_state(moving_piece, board_pos)
-	
+	# send move notification to players
+	player_control.update_player_state.rpc(premove_pos, board_pos)
+	print("OK PLAYED")
 	return true
 
 
@@ -88,6 +98,8 @@ func force_move_piece(board_pos: Vector2i, piece: ChessPiece, emit_signal=true):
 	
 
 func _ready() -> void:
+	print("Board control created!")
+	print("is server? ", multiplayer.is_server())
 	place_pieces()
 
 func add_piece(type: Object, player_color: Globals.PlayerColor, board_pos: Vector2i) -> void:

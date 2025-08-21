@@ -4,7 +4,7 @@ extends Node2D
 @export var MAX_CLIENTS = 20
 
 func _ready() -> void:
-	
+	print("Server")
 	# Create server.
 	var peer = ENetMultiplayerPeer.new()
 	peer.peer_connected.connect(on_peer_connected)

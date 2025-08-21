@@ -1,9 +1,21 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cvwjn00pgjwhy"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cvwjn00pgjwhy"]
 
 [ext_resource type="Shader" uid="uid://14jwvxfo5481" path="res://chess_piece/default/default_shader.gdshader" id="1_ax7je"]
 [ext_resource type="Texture2D" uid="uid://bywppnplcaw51" path="res://chess_piece/pawn/pawn.png" id="2_m25wn"]
 
+[sub_resource type="Gradient" id="Gradient_47dda"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ldsnl"]
+gradient = SubResource("Gradient_47dda")
+
 [resource]
 shader = ExtResource("1_ax7je")
 shader_parameter/piece_texture = ExtResource("2_m25wn")
-shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/color_shining_gradient = SubResource("GradientTexture1D_ldsnl")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 0.03
+shader_parameter/shining_freq = 15.0
+shader_parameter/shining_speed = 1.0
+shader_parameter/shining_intensity = 0.1
+shader_parameter/shining_inverse_contrast = 1.0
+shader_parameter/shining_direction = Vector2(1, 1)
