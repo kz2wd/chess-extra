@@ -17,7 +17,7 @@ func get_move_set(board: BoardModel) -> Dictionary[Vector2i, int]:
 
 	for offset in offsets:
 		var pos = board_position + offset
-		if board.is_position_valid(pos, player_color) and not board.contains_ally(pos, player_color):
+		if board.is_position_valid(pos, player_color):
 			moves[pos] = 0
 
 	return moves
